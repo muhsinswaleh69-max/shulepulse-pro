@@ -1,32 +1,60 @@
 "use client"
 import { useState } from "react"
+
 const learners=[
- {adm:"SP/10/001",name:"Brian Wekesa",grade:"G10",path:"STEM",fee:45000,paid:40000},
- {adm:"SP/10/002",name:"Faith Nafula",grade:"G10",path:"Social",fee:45000,paid:45000},
- {adm:"SP/11/045",name:"Kevin Omondi",grade:"G11",path:"STEM",fee:48000,paid:20000},
- {adm:"SP/11/046",name:"Mercy Akinyi",grade:"G11",path:"Arts",fee:48000,paid:48000},
- {adm:"SP/12/101",name:"Victor Mutiso",grade:"G12",path:"STEM",fee:52000,paid:50000},
- {adm:"SP/12/102",name:"Sharon Chebet",grade:"G12",path:"Social",fee:52000,paid:52000},
+ {code:"2976",name:"DEOGRACIOUS MACHEMBE",cls:"PP2",stream:"North",phone:"0718899014",upi:"A000264719",avg:26.8,board:"Day"},
+ {code:"297",name:"LINTONEL OKINDA",cls:"G10",stream:"East",phone:"0718899014",upi:"A000264711",avg:11.2,board:"Boarding"},
+ {code:"12",name:"VICTOR OLWICHI",cls:"G10",stream:"West",phone:"0722001122",upi:"A000264712",avg:25.6,board:"Day"},
+ {code:"23",name:"ELVIS OPWORA",cls:"G11",stream:"North",phone:"0718899014",upi:"A000264713",avg:0,board:"Day"},
+ {code:"SP/11/45",name:"BRIAN WEKESA - STEM",cls:"G11",stream:"STEM-A",phone:"0712345678",upi:"A000264714",avg:82.4,board:"Boarding"},
+ {code:"SP/12/10",name:"FAITH NAFULA - SOCIAL",cls:"G12",stream:"Social-B",phone:"0700112233",upi:"A000264715",avg:68.5,board:"Day"},
 ]
+
 export default function Page(){
- const [a,setA]=useState("Dashboard"); const [q,setQ]=useState("")
- const filtered=learners.filter(l=>l.name.toLowerCase().includes(q.toLowerCase())||l.adm.includes(q))
+ const [a,setA]=useState("Learners")
+ const [q,setQ]=useState("")
+ const f=learners.filter(l=>l.name.toLowerCase().includes(q.toLowerCase())||l.code.includes(q))
+
  return(
-  <div style={{display:"flex",minHeight:"100vh",fontFamily:"sans-serif"}}>
-   <div style={{width:"240px",background:"#0e2f2b",color:"#fff",padding:"16px",position:"sticky",top:0,height:"100vh"}}>
-    <h2 style={{margin:0}}>ShulePulse Pro</h2><small style={{background:"#1a4d45",padding:"4px 8px",borderRadius:"10px",fontSize:"10px"}}>SENIOR G10-G12</small>
-    <div style={{marginTop:"20px"}}>{["Dashboard","Learners","CBE Assessment","Pathways","Boarding","Fees","KUCCPS","MOE Reports"].map(m=><button key={m} onClick={()=>setA(m)} style={{display:"block",width:"100%",textAlign:"left",padding:"10px",margin:"6px 0",borderRadius:"20px",border:"none",background:a===m?"#7a8a4a":"transparent",color:"#fff",cursor:"pointer"}}>{m}</button>)}</div>
+  <div style={{display:"flex",minHeight:"100vh",fontFamily:"sans-serif",background:"#f6f7f9"}}>
+   <div style={{width:"250px",background:"#0e2f2b",color:"#fff",padding:"16px"}}>
+    <h2 style={{margin:"0 0 4px",color:"#ffcc33"}}>🎓 ShulePulse Pro</h2>
+    <small style={{background:"#1a4d45",padding:"4px 8px",borderRadius:"10px"}}>SENIOR G10-G12</small>
+    <div style={{marginTop:"24px"}}>{["Dashboard","Learners","CBE Assessment","Pathways","Boarding","Fees","KUCCPS","MOE Reports"].map(m=><button key={m} onClick={()=>setA(m)} style={{display:"block",width:"100%",textAlign:"left",padding:"12px",margin:"6px 0",borderRadius:"20px",border:"none",background:a===m?"#4a5a2a":"transparent",color:a===m?"#ffeb8a":"#fff",cursor:"pointer",fontWeight:a===m?"bold":"normal"}}>{m==="Dashboard"?"📊":"👥"} {m}</button>)}</div>
    </div>
-   <div style={{flex:1,background:"#f3f4f6",padding:"16px"}}>
-    {a==="Dashboard" && <div style={{background:"#fff",padding:"20px",borderRadius:"14px"}}><h1>Dashboard</h1><p><b>{learners.length} Sample + 480 more</b> | G10:182 G11:165 G12:139</p><p>STEM 58% | Arts 22% | Social 20%</p><p>Fees: KES 8.2M Collected / 12.5M Expected</p><p style={{color:"green"}}>✅ LIVE: shulepulse-pro-three.vercel.app</p></div>}
-    
-    {a==="Learners" && <div style={{background:"#fff",padding:"16px",borderRadius:"14px"}}><h2>Learners - Senior</h2><input placeholder="Search name or ADM..." value={q} onChange={e=>setQ(e.target.value)} style={{padding:"10px",width:"100%",borderRadius:"8px",border:"1px solid #ccc",margin:"10px 0"}}/><table style={{width:"100%",fontSize:"14px",borderCollapse:"collapse"}}><tr style={{background:"#f0f0f0"}}><th style={{textAlign:"left",padding:"8px"}}>ADM</th><th style={{textAlign:"left"}}>Name</th><th>Grade</th><th>Path</th></tr>{filtered.map(l=><tr key={l.adm} style={{borderBottom:"1px solid #eee"}}><td style={{padding:"8px"}}>{l.adm}</td><td>{l.name}</td><td>{l.grade}</td><td><span style={{background:l.path==="STEM"?"#dbeafe":l.path==="Arts"?"#fce7f3":"#dcfce7",padding:"3px 8px",borderRadius:"10px",fontSize:"11px"}}>{l.path}</span></td></tr>)}</table></div>}
 
-    {a==="Fees" && <div style={{background:"#fff",padding:"16px",borderRadius:"14px"}}><h2>Fees Management</h2><table style={{width:"100%",fontSize:"14px",borderCollapse:"collapse"}}><tr style={{background:"#f0f0f0"}}><th style={{padding:"8px",textAlign:"left"}}>Learner</th><th>Expected</th><th>Paid</th><th>Balance</th></tr>{learners.map(l=><tr key={l.adm} style={{borderBottom:"1px solid #eee"}}><td style={{padding:"8px"}}>{l.name}</td><td>KES {l.fee.toLocaleString()}</td><td style={{color:"green"}}>{l.paid.toLocaleString()}</td><td style={{color:l.fee-l.paid>0?"red":"green",fontWeight:"bold"}}>{(l.fee-l.paid).toLocaleString()}</td></tr>)}</table></div>}
+   <div style={{flex:1,padding:"16px",overflowX:"auto"}}>
+    <div style={{display:"flex",justifyContent:"space-between",marginBottom:"12px"}}>
+     <h2 style={{margin:0}}>{a}</h2>
+     <button style={{padding:"8px 16px",borderRadius:"20px",border:"1px solid #ccc",background:"#fff"}}>Reset</button>
+    </div>
 
-    {a==="CBE Assessment" && <div style={{background:"#fff",padding:"16px",borderRadius:"14px"}}><h2>CBE Assessment G10-G12</h2><p>Competency Based - 4 Levels</p><table style={{width:"100%",borderCollapse:"collapse",fontSize:"13px"}}><tr style={{background:"#0e2f2b",color:"#fff"}}><th style={{padding:"8px"}}>Learner</th><th>Math</th><th>Bio</th><th>Pathway Subj</th></tr><tr><td style={{padding:"8px"}}>Brian Wekesa</td><td>EE</td><td>ME</td><td>EE</td></tr><tr><td style={{padding:"8px"}}>Faith Nafula</td><td>ME</td><td>EE</td><td>ME</td></tr></table><small>EE=Exceeding Expectation, ME=Meeting, AE=Approaching, BE=Below</small></div>}
+    {a==="Learners" && (
+     <div style={{background:"#fff",borderRadius:"12px",padding:"8px",overflowX:"auto"}}>
+      <input placeholder="Search name or code..." value={q} onChange={e=>setQ(e.target.value)} style={{padding:"10px",width:"300px",borderRadius:"20px",border:"1px solid #ddd",margin:"10px"}}/>
+      <table style={{width:"100%",minWidth:"1100px",borderCollapse:"collapse",fontSize:"14px"}}>
+       <thead><tr style={{background:"#f8fafc",textAlign:"left"}}><th style={{padding:"12px"}}>#</th><th>Student Code</th><th>Name</th><th>Class</th><th>Stream</th><th>Parent Phone</th><th>UPI</th><th>Avg%</th><th>Boarding</th><th>Actions</th></tr></thead>
+       <tbody>
+        {f.map((l,i)=><tr key={l.code} style={{borderBottom:"1px solid #eee",background:i%2===1?"#fcfcfc":"#fff"}}>
+         <td style={{padding:"14px"}}>{i+1}</td>
+         <td><span style={{background:"#eef2ff",padding:"4px 10px",borderRadius:"12px"}}>{l.code}</span></td>
+         <td style={{fontWeight:"bold"}}>{l.name}</td>
+         <td>{l.cls}</td>
+         <td>{l.stream}</td>
+         <td>{l.phone}</td>
+         <td>{l.upi}</td>
+         <td><div style={{fontWeight:"bold"}}>{l.avg.toFixed(1)}%</div><span style={{background:l.avg>=50?"#16a34a":l.avg>0?"#ef4444":"#dc2626",color:"#fff",padding:"2px 10px",borderRadius:"10px",fontSize:"11px"}}>{l.avg>=50?"EE":l.avg>=40?"ME":l.avg>0?"AE":"BE"}</span></td>
+         <td><div style={{background:"#64748b",color:"#fff",padding:"3px 10px",borderRadius:"12px",width:"fit-content",fontSize:"12px"}}>{l.board}</div><button style={{background:"#0284c7",color:"#fff",border:"none",padding:"4px 10px",borderRadius:"12px",marginTop:"4px",cursor:"pointer"}}>Toggle</button></td>
+         <td>✏️ 🖨️ 🗑️</td>
+        </tr>)}
+       </tbody>
+      </table>
+      <div style={{padding:"10px",fontSize:"12px",color:"#666",textAlign:"right"}}>CONTACT US; 0718899014</div>
+     </div>
+    )}
 
-    {a!=="Dashboard" && a!=="Learners" && a!=="Fees" && a!=="CBE Assessment" && <div style={{background:"#fff",padding:"20px",borderRadius:"14px"}}><h1>{a}</h1><p>{a} module ready - tell me what fields you want here.</p></div>}
+    {a==="Dashboard" && <div style={{background:"#fff",padding:"20px",borderRadius:"12px"}}><h3>Dashboard</h3><p>486 Learners | G10 182 G11 165 G12 139</p><p>Click Learners to see FULL details table like EduNexa Pro</p></div>}
+    {a!=="Learners" && a!=="Dashboard" && <div style={{background:"#fff",padding:"20px",borderRadius:"12px"}}>{a} module - ready to customize</div>}
    </div>
   </div>
  )
